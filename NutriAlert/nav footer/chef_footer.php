@@ -25,7 +25,7 @@
         </div>
         <div class="links-links">
             <b>Socials</b>
-            <a href="">GitHub</a>
+            <a href="https://github.com/morenajoy2/NutriAlert">GitHub</a>
             <a href="">Twitter</a>
             <a href="">Facebook</a>
             <a href="">Instagram</a>
