@@ -1,14 +1,17 @@
-<?php 
-require_once "controllerUserData.php"; 
- 
-   //if login now button click
-   if(isset($_POST['login_now'])){
+<?php  
+session_start(); // Ensure session is started
+
+// Check if "Login Now" button is clicked
+if (isset($_POST['login_now'])) {
     header('Location: login.php');
+    exit();
 }
 
-// if($_SESSION['info'] == false){
-//     header('Location: login.php');  
-// }
+// Check if session info is not set or is false
+if (empty($_SESSION['info'])) {
+    header('Location: login.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,17 +23,17 @@ require_once "controllerUserData.php";
 </head>
 <body id="login-body">
 <div class="login-input-form">
-<!-- <h1>Code Verification</h1> -->
-<?php 
-            if(isset($_SESSION['info'])){
-                echo $_SESSION['info']; 
-            }
-            ?>
-        <form action="login.php" method="post">
-            <div class="login-submit">
-                <button type="submit" name="login_now">Login Now</button>
-            </div>
-        </form>
-    </div>
+    <?php 
+    if (isset($_SESSION['info'])) {
+        echo "<p>" . $_SESSION['info'] . "</p>";
+        unset($_SESSION['info']); // Clear session info after displaying
+    }
+    ?>
+    <form action="login.php" method="post">
+        <div class="login-submit">
+            <button type="submit" name="login_now">Login Now</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
