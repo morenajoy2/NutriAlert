@@ -23,12 +23,12 @@ if (isset($_POST['change_password'])) {
         }
 
         $code = 0;
-        
-        // Update query with plaintext password
-        $update_pass = "UPDATE users SET user_code = $code, user_password = '$password' WHERE user_email = '$email'";
-        $run_query = mysqli_query($connect, $update_pass);
 
-        if ($run_query) {
+        // Update query with plaintext password
+        $stmt = $connect->prepare("UPDATE users SET user_code = ?, user_password = ? WHERE user_email = ?");
+        $stmt->bind_param("iss", $code, $password, $email);
+
+        if ($stmt->execute()) {
             $_SESSION['info'] = "Your password has been changed. Now you can login with your new password.";
             header('Location: password_changed.php');
             exit();
@@ -52,13 +52,14 @@ if (isset($_POST['change_password'])) {
     <form action="new_password.php" method="POST" autocomplete="off">
         <?php 
         if (isset($_SESSION['info'])) {
-            echo $_SESSION['info'];
+            echo "<p>" . $_SESSION['info'] . "</p>";
+            unset($_SESSION['info']);
         }
         ?>
         <?php
         if (count($errors) > 0) {
             foreach ($errors as $showerror) {
-                echo $showerror;
+                echo "<p>" . $showerror . "</p>";
             }
         }
         ?>
